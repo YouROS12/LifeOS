@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LifeOS - Command Center</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            background: #1e293b;
+            border-bottom: 2px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 20px;
+        }
+
+        .nav-tab {
+            padding: 18px 32px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 600;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            color: #e2e8f0;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .nav-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .container { max-width: 1600px; margin: 0 auto; }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        h1 { font-size: 36px; margin-bottom: 8px; }
+        .subtitle { opacity: 0.95; font-size: 15px; margin-bottom: 15px; }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .header-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Next Action Banner */
+        .next-action-banner {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(245,158,11,0.4);
+        }
+
+        .next-action-banner h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .next-action-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .next-task-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .next-task-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #f1f5f9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Context Filters */
+        .context-filter {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .context-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 2px solid #334155;
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .context-btn:hover {
+            border-color: #667eea;
+            background: #1e293b;
+        }
+
+        .context-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            padding: 15px;
+            background: #0f172a;
+            border-radius: 8px;
+            border-left: 4px solid #64748b;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card.overdue { border-left-color: #ef4444; }
+        .stat-card.overdue .stat-number { color: #ef4444; }
+
+        .stat-card.today { border-left-color: #f59e0b; }
+        .stat-card.today .stat-number { color: #f59e0b; }
+
+        .stat-card.completed { border-left-color: #10b981; }
+        .stat-card.completed .stat-number { color: #10b981; }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+
+        .btn-success { background: #10b981; }
+        .btn-success:hover { background: #059669; }
+
+        .btn-danger { background: #ef4444; }
+        .btn-danger:hover { background: #dc2626; }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            margin: 2px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            background: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #0f172a;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #334155;
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #334155;
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        tr:hover { background: #0f172a; }
+
+        tr.row-overdue { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; }
+        tr.row-today { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; }
+        tr.row-blocked { background: rgba(100, 116, 139, 0.1); border-left: 4px solid #64748b; }
+        tr.row-done { opacity: 0.5; }
+
+        /* Badges */
+        .context-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-low { background: #334155; color: #94a3b8; }
+        .priority-medium { background: #3b82f6; color: white; }
+        .priority-high { background: #f59e0b; color: white; }
+        .priority-critical, .priority-urgent { background: #ef4444; color: white; animation: pulse 2s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-todo { background: #e0e7ff; color: #4338ca; }
+        .status-inprogress { background: #dbeafe; color: #1e40af; }
+        .status-blocked { background: #f3f4f6; color: #1f2937; }
+        .status-waiting { background: #fef3c7; color: #92400e; }
+        .status-done { background: #d1fae5; color: #065f46; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 12px;
+            max-height: 90vh;
+            overflow-y: auto;
+            color: #e2e8f0;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #f1f5f9;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+            justify-content: flex-end;
+        }
+
+        /* Quick Add Button */
+        .quick-add {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(102,126,234,0.5);
+            transition: all 0.2s;
+            z-index: 999;
+        }
+
+        .quick-add:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(102,126,234,0.6);
+        }
+
+        /* Time Check Modal */
+        .time-check-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1e293b;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            z-index: 2000;
+            min-width: 500px;
+            border: 3px solid #f59e0b;
+        }
+
+        .time-check-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1999;
+        }
+
+        .time-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 25px 0 20px 0;
+        }
+
+        .time-option {
+            padding: 20px;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .time-option:hover {
+            border-color: #667eea;
+            background: #1e293b;
+            transform: translateY(-2px);
+        }
+
+        .time-option.wasting {
+            grid-column: 1 / -1;
+        }
+
+        .time-option.wasting:hover {
+            border-color: #ef4444;
+        }
+
+        .time-option-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .time-option-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #64748b;
+        }
+
+        .empty-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0; }
+            .nav-tab { padding: 15px 20px; font-size: 13px; }
+            h1 { font-size: 24px; }
+            table { font-size: 12px; }
+            td, th { padding: 8px 6px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <div class="nav-container">
+            <button class="nav-tab active" onclick="switchTab('dashboard')">🏠 Dashboard</button>
+            <button class="nav-tab" onclick="switchTab('tasks')">✅ Tasks</button>
+            <button class="nav-tab" onclick="switchTab('v2g')">🚗 V2G Requests</button>
+            <button class="nav-tab" onclick="switchTab('analytics')">📊 Analytics</button>
+        </div>
+    </div>
+
+    <!-- Tab Content: Dashboard -->
+    <div id="dashboard" class="tab-content active">
+        <div class="container">
+            <header>
+                <h1>🧠 LifeOS - Your Command Center</h1>
+                <p class="subtitle">PhD + AVL + VitaSana • Managing complexity, maintaining sanity</p>
+                <div class="header-stats">
+                    <div class="header-stat">📊 Active: <span id="header-active">0</span></div>
+                    <div class="header-stat">🚨 Overdue: <span id="header-overdue">0</span></div>
+                    <div class="header-stat">⚡ Today: <span id="header-today">0</span></div>
+                    <div class="header-stat">✅ Done Today: <span id="header-done-today">0</span></div>
+                </div>
+            </header>
+
+            <div id="nextActionBanner"></div>
+
+            <div class="main-grid">
+                <div class="sidebar">
+                    <div class="card">
+                        <h3>📈 Stats</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div class="stat-card overdue">
+                                <div class="stat-number" id="stat-overdue">0</div>
+                                <div class="stat-label">Overdue</div>
+                            </div>
+                            <div class="stat-card today">
+                                <div class="stat-number" id="stat-today">0</div>
+                                <div class="stat-label">Due Today</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="stat-week">0</div>
+                                <div class="stat-label">Due This Week</div>
+                            </div>
+                            <div class="stat-card completed">
+                                <div class="stat-number" id="stat-completed">0</div>
+                                <div class="stat-label">Done This Week</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>⏱️ Time Today</h3>
+                        <div id="timeAnalyticsToday" style="font-size: 13px; color: #94a3b8;">
+                            No time logged yet
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="controls">
+                        <button class="btn" onclick="showAddTaskModal()">➕ Add Task</button>
+                        <button class="btn" onclick="switchTab('tasks')">📋 View All Tasks</button>
+                        <button class="btn" onclick="switchTab('v2g')">🚗 V2G Requests</button>
+                    </div>
+
+                    <div class="card">
+                        <h3>📋 Recent Tasks</h3>
+                        <div id="dashboardTasks"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content: Tasks -->
+    <div id="tasks" class="tab-content">
+        <div class="container">
+            <header>
+                <h1>✅ Task Management</h1>
+                <p class="subtitle">All your tasks across contexts</p>
+            </header>
+
+            <div class="main-grid">
+                <div class="sidebar">
+                    <div class="card">
+                        <h3>📂 Contexts</h3>
+                        <div class="context-filter">
+                            <button class="context-btn active" data-context="all">
+                                <span>All Contexts</span>
+                            </button>
+                            {% for key, ctx in contexts.items() %}
+                            <button class="context-btn" data-context="{{ key }}">
+                                <span>{{ ctx.icon }} {{ ctx.name.replace(ctx.icon + ' ', '') }}</span>
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="controls">
+                        <button class="btn" onclick="showAddTaskModal()">➕ Add Task</button>
+                        <button class="btn" onclick="filterTaskView('urgent')">🔥 Urgent Only</button>
+                        <button class="btn btn-success" onclick="filterTaskView('all')">📋 All Tasks</button>
+                    </div>
+
+                    <div id="taskTableContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content: V2G -->
+    <div id="v2g" class="tab-content">
+        <div class="container">
+            <header>
+                <h1>🚗 V2G Request Tracker</h1>
+                <p class="subtitle">Stay on top of your requests. Never miss a deadline.</p>
+            </header>
+
+            <div class="main-grid">
+                <div class="sidebar">
+                    <div class="card">
+                        <h3>📈 V2G Stats</h3>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div class="stat-card">
+                                <div class="stat-number" id="v2g-stat-total">0</div>
+                                <div class="stat-label">Open Requests</div>
+                            </div>
+                            <div class="stat-card overdue">
+                                <div class="stat-number" id="v2g-stat-overdue">0</div>
+                                <div class="stat-label">Overdue</div>
+                            </div>
+                            <div class="stat-card today">
+                                <div class="stat-number" id="v2g-stat-today">0</div>
+                                <div class="stat-label">Due Today</div>
+                            </div>
+                            <div class="stat-card" style="border-left-color: #8b5cf6;">
+                                <div class="stat-number" id="v2g-stat-gabriel" style="color: #8b5cf6;">0</div>
+                                <div class="stat-label">Needs Gabriel</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-content">
+                    <div class="controls">
+                        <button class="btn" onclick="showAddV2GModal()">➕ Add V2G Request</button>
+                        <button class="btn btn-danger" onclick="filterV2GView('urgent')">🔥 Urgent Only</button>
+                        <button class="btn btn-success" onclick="filterV2GView('all')">📋 All Requests</button>
+                    </div>
+
+                    <div id="v2gTableContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Content: Analytics -->
+    <div id="analytics" class="tab-content">
+        <div class="container">
+            <header>
+                <h1>📊 Analytics & Insights</h1>
+                <p class="subtitle">Your productivity patterns and time tracking</p>
+            </header>
+
+            <div class="card">
+                <h3>⏱️ Time Tracking - This Week</h3>
+                <div id="weekTimeAnalytics" style="margin-top: 20px;">
+                    Loading analytics...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Add Button -->
+    <button class="quick-add" onclick="quickAdd()" title="Quick Add">+</button>
+
+    <!-- Time Check Modal -->
+    <div class="time-check-backdrop" id="timeCheckBackdrop"></div>
+    <div class="time-check-modal" id="timeCheckModal">
+        <h2>⏰ Time Check!</h2>
+        <p style="color: #94a3b8; margin-bottom: 10px;">What are you working on right now?</p>
+
+        <div class="time-options">
+            <div class="time-option" onclick="logTime('phd')">
+                <div class="time-option-icon">🎓</div>
+                <div class="time-option-label">PhD Research</div>
+            </div>
+            <div class="time-option" onclick="logTime('avl')">
+                <div class="time-option-icon">💼</div>
+                <div class="time-option-label">AVL Work</div>
+            </div>
+            <div class="time-option" onclick="logTime('vitasana')">
+                <div class="time-option-icon">🏢</div>
+                <div class="time-option-label">VitaSana</div>
+            </div>
+            <div class="time-option" onclick="logTime('personal')">
+                <div class="time-option-icon">🏠</div>
+                <div class="time-option-label">Personal</div>
+            </div>
+            <div class="time-option wasting" onclick="logTime('wasting')">
+                <div class="time-option-icon">📱</div>
+                <div class="time-option-label">Wasting Time</div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="btn" style="background: #64748b;" onclick="closeTimeCheck()">Skip for now</button>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <h2 id="taskModalTitle">Add New Task</h2>
+            <form id="taskForm" onsubmit="saveTask(event)">
+                <input type="hidden" id="taskEditId">
+
+                <div class="form-group">
+                    <label>Task Title *</label>
+                    <input type="text" id="taskTitle" required placeholder="What needs to be done?">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Context *</label>
+                        <select id="taskContext" required>
+                            {% for key, ctx in contexts.items() %}
+                            <option value="{{ key }}">{{ ctx.icon }} {{ ctx.name.replace(ctx.icon + ' ', '') }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="taskPriority">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                            <option>Critical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" id="taskDueDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Energy Needed</label>
+                        <select id="taskEnergy">
+                            <option value="Low">☕ Low</option>
+                            <option value="Medium" selected>⚡ Medium</option>
+                            <option value="High">🔥 High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Estimated Time</label>
+                        <select id="taskTime">
+                            <option value="15min">15 minutes</option>
+                            <option value="30min">30 minutes</option>
+                            <option value="1hour" selected>1 hour</option>
+                            <option value="2hours">2 hours</option>
+                            <option value="4hours">4 hours</option>
+                            <option value="1day">1 day</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="taskStatus">
+                            <option>To Do</option>
+                            <option>In Progress</option>
+                            <option>Blocked</option>
+                            <option>Waiting</option>
+                            <option>Done</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Project/Category</label>
+                    <input type="text" id="taskProject" placeholder="e.g., Thesis Chapter 3">
+                </div>
+
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="taskNotes" placeholder="Additional context..."></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn" style="background: #64748b" onclick="closeTaskModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- V2G Modal -->
+    <div id="v2gModal" class="modal">
+        <div class="modal-content">
+            <h2 id="v2gModalTitle">Add V2G Request</h2>
+            <form id="v2gForm" onsubmit="saveV2GRequest(event)">
+                <input type="hidden" id="v2gEditId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Requester *</label>
+                        <input type="text" id="v2gRequester" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Source</label>
+                        <select id="v2gSource">
+                            <option>Email</option>
+                            <option>Teams</option>
+                            <option>Meeting</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Request Summary *</label>
+                    <textarea id="v2gSummary" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="v2gStatus">
+                            <option>To Do</option>
+                            <option>In Progress</option>
+                            <option>Waiting</option>
+                            <option>Done</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="v2gPriority">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                            <option>Urgent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Needs Gabriel?</label>
+                        <select id="v2gNeedsGabriel">
+                            <option>NO</option>
+                            <option>YES</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Target Date</label>
+                        <input type="date" id="v2gTargetDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Gabriel Question</label>
+                    <textarea id="v2gGabrielQuestion" placeholder="What do you need to ask?"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea id="v2gNotes"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn" style="background: #64748b" onclick="closeV2GModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

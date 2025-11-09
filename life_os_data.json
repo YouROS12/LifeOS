@@ -1,0 +1,245 @@
+{
+  "tasks": [
+    {
+      "id": 2,
+      "created_date": "2025-11-02",
+      "title": "V2G: ziwei.lin@ampere.cars - - Importer REQ_SYS_AC-HLC-Charge_Design_472 sur AD",
+      "context": "avl",
+      "priority": "Medium",
+      "due_date": "2025-11-03",
+      "energy_needed": "Medium",
+      "estimated_time": "1hour",
+      "status": "Done",
+      "project": "V2G Requests",
+      "notes": "[Synced from V2G Tracker]\nRequester: ziwei.lin@ampere.cars\nSource: Email\n\nURGENT",
+      "completed_date": "2025-11-05",
+      "v2g_request_id": "2",
+      "needs_gabriel": "YES"
+    },
+    {
+      "id": 3,
+      "created_date": "2025-11-03",
+      "title": "V2G: Etienne - PnC use cases",
+      "context": "avl",
+      "priority": "Medium",
+      "due_date": "2025-11-10",
+      "energy_needed": "Medium",
+      "estimated_time": "1hour",
+      "status": "Done",
+      "project": "V2G Requests",
+      "notes": "[Synced from V2G Tracker]\nRequester: Etienne\nSource: Teams\n\n",
+      "completed_date": "2025-11-05",
+      "v2g_request_id": "3",
+      "needs_gabriel": "YES"
+    },
+    {
+      "id": 4,
+      "created_date": "2025-11-03",
+      "title": "V2G: mickael.i.de-sousa@ampere.cars - Failsafe V2G",
+      "context": "avl",
+      "priority": "High",
+      "due_date": "2025-11-05",
+      "energy_needed": "High",
+      "estimated_time": "1hour",
+      "status": "To Do",
+      "project": "V2G Requests",
+      "notes": "[Synced from V2G Tracker]\nRequester: mickael.i.de-sousa@ampere.cars\nSource: Email\n\n",
+      "completed_date": "",
+      "v2g_request_id": "4",
+      "needs_gabriel": "YES"
+    },
+    {
+      "id": 5,
+      "created_date": "2025-11-03",
+      "title": "Final Paper Update to be submitted",
+      "context": "phd",
+      "priority": "High",
+      "due_date": "2025-11-03",
+      "energy_needed": "Medium",
+      "estimated_time": "2hours",
+      "status": "In Progress",
+      "project": "Submission Version",
+      "notes": "YOUR GOAAAAAL MF",
+      "completed_date": ""
+    },
+    {
+      "id": 6,
+      "created_date": "2025-11-03",
+      "title": "Add semantic api key",
+      "context": "personal",
+      "priority": "Low",
+      "due_date": "2025-10-11",
+      "energy_needed": "Medium",
+      "estimated_time": "2hours",
+      "status": "To Do",
+      "project": "Co Scientist",
+      "notes": "",
+      "completed_date": ""
+    },
+    {
+      "id": 7,
+      "created_date": "2025-11-03",
+      "title": "V2G: Khadija.El-Badri@avl.com - 3emer l collecteur",
+      "context": "avl",
+      "priority": "Urgent",
+      "due_date": "2025-11-03",
+      "energy_needed": "High",
+      "estimated_time": "1hour",
+      "status": "To Do",
+      "project": "V2G Requests",
+      "notes": "[Synced from V2G Tracker]\nRequester: Khadija.El-Badri@avl.com\nSource: Teams\n\n",
+      "completed_date": "",
+      "v2g_request_id": "6",
+      "needs_gabriel": "NO"
+    }
+  ],
+  "projects": [],
+  "time_logs": [
+    {
+      "id": 1,
+      "timestamp": "2025-11-03 12:05:47",
+      "context": "avl",
+      "duration_minutes": 15,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "timestamp": "2025-11-03 12:49:06",
+      "context": "personal",
+      "duration_minutes": 43,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "timestamp": "2025-11-03 13:12:07",
+      "context": "wasting",
+      "duration_minutes": 23,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 4,
+      "timestamp": "2025-11-03 13:28:37",
+      "context": "wasting",
+      "duration_minutes": 16,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 5,
+      "timestamp": "2025-11-03 13:56:56",
+      "context": "personal",
+      "duration_minutes": 28,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 6,
+      "timestamp": "2025-11-03 14:47:36",
+      "context": "wasting",
+      "duration_minutes": 51,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 7,
+      "timestamp": "2025-11-03 15:43:12",
+      "context": "avl",
+      "duration_minutes": 56,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 8,
+      "timestamp": "2025-11-03 15:59:41",
+      "context": "avl",
+      "duration_minutes": 16,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 9,
+      "timestamp": "2025-11-03 16:23:06",
+      "context": "avl",
+      "duration_minutes": 23,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 10,
+      "timestamp": "2025-11-03 16:39:05",
+      "context": "avl",
+      "duration_minutes": 16,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 11,
+      "timestamp": "2025-11-03 16:55:52",
+      "context": "avl",
+      "duration_minutes": 17,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 12,
+      "timestamp": "2025-11-03 17:12:05",
+      "context": "avl",
+      "duration_minutes": 16,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 13,
+      "timestamp": "2025-11-03 17:29:04",
+      "context": "avl",
+      "duration_minutes": 17,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 14,
+      "timestamp": "2025-11-03 17:46:44",
+      "context": "avl",
+      "duration_minutes": 15,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 15,
+      "timestamp": "2025-11-03 18:01:02",
+      "context": "avl",
+      "duration_minutes": 14,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 16,
+      "timestamp": "2025-11-05 16:41:32",
+      "context": "personal",
+      "duration_minutes": 17,
+      "task_id": null,
+      "notes": ""
+    },
+    {
+      "id": 17,
+      "timestamp": "2025-11-05 16:57:01",
+      "context": "personal",
+      "duration_minutes": 15,
+      "task_id": null,
+      "notes": ""
+    }
+  ],
+  "next_task_id": 8,
+  "next_project_id": 1,
+  "next_log_id": 18,
+  "v2g_sync_map": {
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "6": 7
+  }
+}

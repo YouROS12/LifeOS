@@ -1,0 +1,75 @@
+{
+  "requests": [
+    {
+      "id": 1,
+      "date_received": "2025-11-02",
+      "requester": "Guillaume MAHE",
+      "source": "Teams",
+      "request_summary": "Complete the S19 to S22 can parameter mapping to requirement",
+      "status": "In Progress",
+      "priority": "High",
+      "needs_gabriel": "NO",
+      "gabriel_question": "",
+      "target_date": "2025-11-11",
+      "last_update": "2025-11-05",
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "date_received": "2025-11-02",
+      "requester": "ziwei.lin@ampere.cars",
+      "source": "Email",
+      "request_summary": "- Importer REQ_SYS_AC-HLC-Charge_Design_472 sur ADD 2.0\n- REQ_LUMD pour interdire alarm request pour AC HLC + et donc l'exigence associ\u00e9 \u00e0 m\u00e0j REQ_SYS_AC-HLC-Charge_Design_472",
+      "status": "Done",
+      "priority": "Medium",
+      "needs_gabriel": "YES",
+      "gabriel_question": "",
+      "target_date": "2025-11-03",
+      "last_update": "2025-11-04",
+      "notes": "URGENT"
+    },
+    {
+      "id": 3,
+      "date_received": "2025-11-03",
+      "requester": "Etienne",
+      "source": "Teams",
+      "request_summary": "PnC use cases",
+      "status": "Done",
+      "priority": "Medium",
+      "needs_gabriel": "YES",
+      "gabriel_question": "What is the current status ? what is the upcoming requests ? how the cycle looks like ? ",
+      "target_date": "2025-11-10",
+      "last_update": "2025-11-04",
+      "notes": ""
+    },
+    {
+      "id": 4,
+      "date_received": "2025-11-03",
+      "requester": "mickael.i.de-sousa@ampere.cars",
+      "source": "Email",
+      "request_summary": "Failsafe V2G",
+      "status": "To Do",
+      "priority": "High",
+      "needs_gabriel": "NO",
+      "gabriel_question": "Bonjour Messieurs, \n\nJe me permets une relance sur le mail ci-dessous car comme partag\u00e9 en point Syst\u00e8me en S2542 le projet pousse fortement pour avoir une livraison pour S2546 incluant :\nFailsafe \"histoirique S19\" (\u00e0 savoir hors V2L et V2G) --> sujet en cours avec Marwa et Pierre dans les r\u00e9unions dont le CR est ci-dessous\nFailsafe V2L --> sujet trait\u00e9 paar Aissa et disponible sur le sharepoint \nFailsafe V2G --> avancement non connu de mon c\u00f4t\u00e9 d'o\u00f9 les questions de mon pr\u00e9c\u00e9dent mail\n\nJe reste \u00e0 disposition pour en reparler et monter un point si n\u00e9cessaire. \n\nMerci d'avance pour votre retour",
+      "target_date": "2025-11-11",
+      "last_update": "2025-11-05",
+      "notes": "ask Aissa"
+    },
+    {
+      "id": 6,
+      "date_received": "2025-11-03",
+      "requester": "Khadija.El-Badri@avl.com",
+      "source": "Teams",
+      "request_summary": "3emer l collecteur",
+      "status": "To Do",
+      "priority": "Urgent",
+      "needs_gabriel": "NO",
+      "gabriel_question": "",
+      "target_date": "2025-11-11",
+      "last_update": "2025-11-05",
+      "notes": ""
+    }
+  ],
+  "next_id": 7
+}
