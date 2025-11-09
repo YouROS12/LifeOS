@@ -6,6 +6,9 @@ Run: python app.py
 Access: http://localhost:5001
 """
 
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 from flask import Flask, render_template, request, jsonify
 from datetime import datetime
 import models

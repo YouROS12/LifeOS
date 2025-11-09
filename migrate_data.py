@@ -5,6 +5,9 @@ Migrates data from old JSON files to new unified SQLite database
 Run once: python migrate_data.py
 """
 
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 import json
 import os
 import models
@@ -171,12 +174,7 @@ def main():
     print("  • Backup and remove old JSON files")
     print("\n")
 
-    response = input("Continue with migration? (yes/no): ").lower().strip()
-
-    if response not in ['yes', 'y']:
-        print("\n❌ Migration cancelled.")
-        return
-
+    # Auto-confirm migration
     print("\n🚀 Starting migration...\n")
 
     # Initialize database

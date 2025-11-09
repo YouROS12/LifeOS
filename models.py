@@ -3,6 +3,9 @@ LifeOS Database Models
 SQLite-based data layer for unified task & time tracking
 """
 
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 import sqlite3
 from datetime import datetime, timedelta
 from contextlib import contextmanager
